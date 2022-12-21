@@ -1,0 +1,17 @@
+# IDE & Code Editor
+.idea
+.vscode
+
+# JS modules
+*/node_modules
+*/build
+*/dist
+
+#python-project
+*/__pycache__/
+*/__pypackages__/
+*.py[cod]
+*$py.class
+.DS_Store
+*/venv
+.Python

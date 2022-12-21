@@ -1,0 +1,4 @@
+replicaCount: 2
+service:
+  port: 3000
+image: tuantoquq/fn-webadmin:1.0.0
