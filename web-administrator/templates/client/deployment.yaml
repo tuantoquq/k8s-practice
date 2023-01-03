@@ -1,0 +1,33 @@
+#file: noinspection YAMLSchemaValidation
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.client.appName }}-deployment
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.client.appName }}
+      tier: {{ .Values.client.service.tier }}
+  replicas: {{ .Values.client.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.client.appName }}
+        tier: {{ .Values.client.service.tier }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-client
+          image: "{{ .Values.client.image.repository }}:{{ .Values.client.image.tag }}"
+          imagePullPolicy: {{ .Values.client.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.client.service.internalPort }}
+          env:
+            - name: REACT_APP_WEB_SERVER_URL
+              value: "http://{{ .Values.server.appName }}-service:{{ .Values.server.service.externalPort }}"
+          resources:
+{{ toYaml .Values.client.resources | indent 12 }}

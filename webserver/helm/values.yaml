@@ -1,4 +1,0 @@
-replicaCount: 2
-service:
-  port: 8181
-image: tuantoquq/fn-webserver:1.0.0

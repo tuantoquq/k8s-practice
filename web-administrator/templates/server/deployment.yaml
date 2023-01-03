@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.server.appName }}-deployment
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.server.appName }}
+      tier: {{ .Values.server.service.tier }}
+  replicas: {{ .Values.server.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.server.appName }}
+        tier: {{ .Values.server.service.tier }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-sever
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          env:
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.database.appName }}-configmap
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.database.appName }}-configmap
+                  key: DB_PASS
+            - name: DB_HOST
+              value: "{{ .Values.database.appName }}-service"
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.database.appName }}-configmap
+                  key: DB_NAME
+            - name: DB_PORT
+              value: "{{ .Values.database.service.externalPort }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.server.service.internalPort }}
+          resources:
+{{ toYaml .Values.server.resources | indent 12}}
+
