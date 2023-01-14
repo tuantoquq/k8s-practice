@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.server.appName }}-configmap
+data:
+  DB_USER: {{ .Values.server.database.user }}
+  DB_PASS: {{ .Values.server.database.pass }}
+  DB_NAME: {{ .Values.server.database.dbName }}
+  DB_HOST: {{ .Values.server.database.host }}
+  DB_PORT: "{{ .Values.server.database.port }}"

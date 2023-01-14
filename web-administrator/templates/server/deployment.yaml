@@ -26,22 +26,28 @@ spec:
             - name: DB_USER
               valueFrom:
                 configMapKeyRef:
-                  name: {{ .Values.database.appName }}-configmap
+                  name: {{ .Values.server.appName }}-configmap
                   key: DB_USER
             - name: DB_PASS
               valueFrom:
                 configMapKeyRef:
-                  name: {{ .Values.database.appName }}-configmap
+                  name: {{ .Values.server.appName }}-configmap
                   key: DB_PASS
             - name: DB_HOST
-              value: "{{ .Values.database.appName }}-service"
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.server.appName }}-configmap
+                  key: DB_HOST
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: {{ .Values.database.appName }}-configmap
+                  name: {{ .Values.server.appName }}-configmap
                   key: DB_NAME
             - name: DB_PORT
-              value: "{{ .Values.database.service.externalPort }}"
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.server.appName }}-configmap
+                  key: DB_PORT
           ports:
             - name: http
               containerPort: {{ .Values.server.service.internalPort }}

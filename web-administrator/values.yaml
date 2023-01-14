@@ -1,41 +1,22 @@
-application:
-  name: web-administrator
-database:
-  appName: mysql-db
-  image:
-    repository: mysql
-    tag: 8.0
-    pullPolicy: IfNotPresent
-  service:
-    name: mysql-db
-    tier: database
-    type: ClusterIP
-    protocol: TCP
-    externalPort: 3306
-    internalPort: 3306
-  resources:
-    limits:
-      memory: 512Mi
-    requests:
-      memory: 256Mi
-  replicaCount: 1
-  config:
-    user: tuannha
-    password: Admin123**
-    dbName: manager
 server:
   appName: web-server
   image:
     repository: tuantoquq/fn-webserver
-    tag: 1.0.3
+    tag: latest
     pullPolicy: IfNotPresent
   service:
     name: web-server
     tier: server
-    type: ClusterIP
+    type: LoadBalancer
     protocol: TCP
     externalPort: 8181
     internalPort: 8181
+  database:
+    user: root
+    pass: root
+    dbName: manager
+    host: mysql-primary.default.svc.cluster.local
+    port: 3306
   resources:
     limits:
       memory: 512Mi
@@ -51,7 +32,7 @@ client:
   service:
     name: web-client
     tier: client
-    type: ClusterIP
+    type: LoadBalancer
     protocol: TCP
     externalPort: 3000
     internalPort: 3000

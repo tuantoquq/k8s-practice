@@ -666,7 +666,7 @@ scheduler:
 
   # Scheduler pod disruption budget
   podDisruptionBudget:
-    enabled: false
+    enabled: true
 
     # PDB configuration
     config:
@@ -913,7 +913,7 @@ webserver:
 
   # Webserver pod disruption budget
   podDisruptionBudget:
-    enabled: false
+    enabled: true
 
     # PDB configuration
     config:
@@ -1430,7 +1430,7 @@ pgbouncer:
 
   # PgBouncer pod disruption budget
   podDisruptionBudget:
-    enabled: false
+    enabled: true
 
     # PDB configuration
     config:
