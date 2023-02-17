@@ -7,7 +7,7 @@ server:
   service:
     name: web-server
     tier: server
-    type: LoadBalancer
+    type: ClusterIP
     protocol: TCP
     externalPort: 8181
     internalPort: 8181
@@ -15,7 +15,7 @@ server:
     user: root
     pass: root
     dbName: manager
-    host: mysql-primary.default.svc.cluster.local
+    host: mysql-primary.ns-mysql.svc.cluster.local
     port: 3306
   resources:
     limits:
@@ -23,22 +23,32 @@ server:
     requests:
       memory: 128Mi
   replicaCount: 1
+  dagsFolder:
 client:
   appName: web-client
   image:
     repository: tuantoquq/fn-webadmin
-    tag: 1.0.4
+    tag: 1.0.1
     pullPolicy: IfNotPresent
   service:
     name: web-client
     tier: client
-    type: LoadBalancer
+    type: ClusterIP
     protocol: TCP
-    externalPort: 3000
-    internalPort: 3000
+    externalPort: 80
+    internalPort: 80
   resources:
     limits:
       memory: 512Mi
     requests:
       memory: 128Mi
   replicaCount: 1
+ingress:
+  server:
+    path: /api
+    pathType: Prefix
+  client:
+    path: /
+    pathType: ImplementationSpecific
+  name: finance-app-ingress
+  host: localhost

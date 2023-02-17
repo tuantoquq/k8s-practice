@@ -48,6 +48,10 @@ spec:
                 configMapKeyRef:
                   name: {{ .Values.server.appName }}-configmap
                   key: DB_PORT
+            - name: SERVER_PORT
+              value: {{ .Values.server.service.internalPort }}
+            - name: DAGS_FOLDER
+              value: {{ .Values.server.dagsFolder }}
           ports:
             - name: http
               containerPort: {{ .Values.server.service.internalPort }}

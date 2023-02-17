@@ -1,13 +1,15 @@
 FROM python:3.9
 
-WORKDIR /code
+WORKDIR /back-end
 
-COPY ./requirements.txt /code/requirements.txt
+COPY ./requirements.txt /back-end/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /back-end/requirements.txt
 
-COPY ./app /code/app
+COPY ./ /back-end
 
-EXPOSE 8181
+ENV SERVER_PORT=8181
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8181"]
+EXPOSE ${SERVER_PORT}
+
+CMD ["python3", "app.py"]

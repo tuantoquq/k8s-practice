@@ -26,8 +26,5 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.client.service.internalPort }}
-          env:
-            - name: REACT_APP_WEB_SERVER_URL
-              value: "http://{{ .Values.server.appName }}-service:{{ .Values.server.service.externalPort }}"
           resources:
 {{ toYaml .Values.client.resources | indent 12 }}

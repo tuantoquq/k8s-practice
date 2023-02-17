@@ -3,9 +3,9 @@
 .vscode
 
 # JS modules
-*/node_modules
-*/build
-*/dist
+**/node_modules
+**/build
+**/dist
 
 #python-project
 */__pycache__/
