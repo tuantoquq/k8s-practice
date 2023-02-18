@@ -36,7 +36,7 @@ class UserRepository:
 
     async def lock(self, Id, status):
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name

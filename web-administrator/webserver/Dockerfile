@@ -1,12 +1,12 @@
 FROM python:3.9
 
-WORKDIR /back-end
+WORKDIR /app
 
-COPY ./requirements.txt /back-end/requirements.txt
+COPY ./requirements.txt /app/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /back-end/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
-COPY ./ /back-end
+COPY ./ /app
 
 ENV SERVER_PORT=8181
 

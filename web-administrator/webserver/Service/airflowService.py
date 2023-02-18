@@ -1,8 +1,10 @@
 import requests
 from requests.auth import HTTPBasicAuth
+import os
+from dotenv import load_dotenv
 
-AIRFLOW_HOST = "http://localhost"
-AIRFLOW_PORT = 8080
+load_dotenv()
+AIRFLOW_URL = os.getenv('AIRFLOW_URL')
 AIRFLOW_LIST_DAGS_ENDPOINT = "/api/v1/dags"
 AIRFLOW_DAG_BY_ID_ENDPOINT = "/api/v1/dags/{dag_id}"
 AIRFLOW_GET_SOURCE_CODE_ENDPOINT = "/api/v1/dagSources/{file_token}"
@@ -11,7 +13,7 @@ AIRFLOW_DELETE_DAG_BY_ID = ""
 
 class AirflowService:
     def __init__(self):
-        self.airflow_url = AIRFLOW_HOST + ":" + str(AIRFLOW_PORT)
+        self.airflow_url = AIRFLOW_URL
 
     def get_list_dags(self):
         list_dags = requests.get(self.airflow_url + AIRFLOW_LIST_DAGS_ENDPOINT,

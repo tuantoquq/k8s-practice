@@ -1,6 +1,6 @@
 FROM node:alpine as build
 
-WORKDIR /front-end
+WORKDIR /webui
 
 COPY package.json .
 
@@ -14,7 +14,7 @@ RUN npm run build
 
 FROM nginx 
 
-COPY --from=build /front-end/build /usr/share/nginx/html
+COPY --from=build /webui/build /usr/share/nginx/html
 
 EXPOSE 80 443
 

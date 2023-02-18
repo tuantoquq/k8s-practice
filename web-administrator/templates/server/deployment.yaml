@@ -52,6 +52,8 @@ spec:
               value: {{ .Values.server.service.internalPort }}
             - name: DAGS_FOLDER
               value: {{ .Values.server.dagsFolder }}
+            - name: AIRFLOW_URL
+              value: {{ .Values.server.airflowUrl }}
           ports:
             - name: http
               containerPort: {{ .Values.server.service.internalPort }}
