@@ -423,7 +423,7 @@ extraEnvVarsSecret: ""
 
 ## @param replicaCount Number of Kafka nodes
 ##
-replicaCount: 2
+replicaCount: 1
 ## @param minBrokerId Minimal broker.id value, nodes increment their `broker.id` respectively
 ## Brokers increment their ID starting at this minimal value.
 ## E.g., with `minBrokerId=100` and 3 nodes, IDs will be 100, 101, 102 for brokers 0, 1, and 2, respectively.
@@ -927,7 +927,7 @@ persistence:
     - ReadWriteOnce
   ## @param persistence.size PVC Storage Request for Kafka data volume
   ##
-  size: 2Gi
+  size: 1Gi
   ## @param persistence.annotations Annotations for the PVC
   ##
   annotations: {}
@@ -967,7 +967,7 @@ logPersistence:
     - ReadWriteOnce
   ## @param logPersistence.size PVC Storage Request for Kafka logs volume
   ##
-  size: 4Gi
+  size: 1Gi
   ## @param logPersistence.annotations Annotations for the PVC
   ##
   annotations: {}
@@ -1741,7 +1741,7 @@ zookeeper:
     storageClass: ""
     accessModes:
       - ReadWriteOnce
-    size: 2Gi
+    size: 1Gi
 
 ## External Zookeeper Configuration
 ## All of these values are only used if `zookeeper.enabled=false`
@@ -1750,4 +1750,3 @@ externalZookeeper:
   ## @param externalZookeeper.servers List of external zookeeper servers to use. Typically used in combination with 'zookeeperChrootPath'.
   ##
   servers: []
-

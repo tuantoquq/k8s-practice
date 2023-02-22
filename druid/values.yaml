@@ -1,6 +1,23 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Default values for druid.
+
 image:
   repository: apache/druid
-  tag: 0.23.0
+  tag: 24.0.0
   pullPolicy: IfNotPresent
   pullSecrets: []
 
@@ -54,14 +71,14 @@ broker:
     # druid_monitoring_monitors: '["org.apache.druid.client.cache.CacheMonitor", "org.apache.druid.server.metrics.QueryCountStatsMonitor"]'
 
   ingress:
-    enabled: true
+    enabled: false
     annotations:
       {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
-    path: "/broker"
+    path: /
     hosts:
-      - druid.local
+      - chart-example.local
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
@@ -99,14 +116,14 @@ coordinator:
     # druid_monitoring_monitors: '["org.apache.druid.server.metrics.TaskCountStatsMonitor"]'
 
   ingress:
-    enabled: true
+    enabled: false
     annotations:
       {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
-    path: "/coordinator"
+    path: /
     hosts:
-      - druid.local
+      - chart-example.local
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
@@ -132,7 +149,7 @@ coordinator:
 overlord:
   ## If true, the separate overlord will be installed
   ##
-  enabled: true
+  enabled: false
   name: overlord
   replicaCount: 1
   port: 8081
@@ -141,14 +158,14 @@ overlord:
   javaOpts: "-Xms1G -Xmx1G"
 
   ingress:
-    enabled: true
+    enabled: false
     annotations:
       {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
-    path: "/overlord"
+    path: /
     hosts:
-      - druid.local
+      - chart-example.local
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
@@ -200,7 +217,7 @@ historical:
   persistence:
     enabled: true
     accessMode: ReadWriteOnce
-    size: "2Gi"
+    size: "1Gi"
     # storageClass: "ssd"
 
   antiAffinity: "soft"
@@ -287,7 +304,7 @@ middleManager:
   persistence:
     enabled: true
     accessMode: ReadWriteOnce
-    size: "4Gi"
+    size: "1Gi"
     # storageClass: "ssd"
 
   antiAffinity: "soft"
@@ -328,7 +345,7 @@ router:
   name: router
   replicaCount: 1
   port: 8888
-  serviceType: NodePort
+  serviceType: ClusterIP
 
   config:
     DRUID_XMX: 128m
@@ -336,14 +353,14 @@ router:
     DRUID_MAXDIRECTMEMORYSIZE: 128m
 
   ingress:
-    enabled: true
+    enabled: false
     annotations:
       {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
-    path: "/druid"
+    path: /
     hosts:
-      - druid.local
+      - chart-example.local
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
@@ -370,6 +387,7 @@ router:
 # Zookeeper:
 # ------------------------------------------------------------------------------
 
+# If using a zookeeper installed outside of this chart you must uncomment and set this line
 # zkHosts: druid-zookeeper-headless:2181
 
 zookeeper:
@@ -382,6 +400,8 @@ zookeeper:
   ## Configure Zookeeper headless
   headless:
     publishNotReadyAddresses: true
+  persistence:
+    size: "1Gi"
 
 # ------------------------------------------------------------------------------
 # MySQL:
@@ -408,4 +428,14 @@ postgresql:
   postgresqlDatabase: druid
   service:
     port: 5432
+  persistence:
+    size: "1Gi"
+
 # Secrets
+prometheus:
+  enabled: false
+  #pick the any port what you want
+  port: 9090
+  annotation:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
