@@ -16,3 +16,4 @@ pandas
 python-multipart
 pyyaml==5.4.1
 pandas
+python-dotenv==0.21.1

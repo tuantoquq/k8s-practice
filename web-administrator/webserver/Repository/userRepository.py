@@ -58,7 +58,7 @@ class UserRepository:
 
     async def get_user_by_id(self, Id: str):
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name
@@ -88,7 +88,7 @@ class UserRepository:
 
     async def get_user_by_user_name(self, Username: str):
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name
@@ -136,7 +136,7 @@ class UserRepository:
 
     def validate(self, user:User):
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name
@@ -155,7 +155,7 @@ class UserRepository:
 
     def do_query(self, users: List[tuple], sql_other:str):   
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name

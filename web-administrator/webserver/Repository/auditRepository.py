@@ -40,7 +40,7 @@ class AuditRepository:
 
     def do_query(self, audits: List[tuple], sql_other:str):   
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name
@@ -71,7 +71,7 @@ class AuditRepository:
     async def get_all(self):        
         sql = "Select * from Audit inner join User on Audit.UserId = User.Id inner join Miner on Miner.Id = Audit.MinerId"
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name
@@ -102,7 +102,7 @@ class AuditRepository:
     
     async def get_audit_by_id(self, Id: str):
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name

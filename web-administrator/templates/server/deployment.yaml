@@ -19,7 +19,7 @@ spec:
         tier: {{ .Values.server.service.tier }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}-sever
+        - name: {{ .Chart.Name }}-server
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
           imagePullPolicy: {{ .Values.server.image.pullPolicy }}
           env:
@@ -49,7 +49,7 @@ spec:
                   name: {{ .Values.server.appName }}-configmap
                   key: DB_PORT
             - name: SERVER_PORT
-              value: {{ .Values.server.service.internalPort }}
+              value: "{{ .Values.server.service.internalPort }}"
             - name: DAGS_FOLDER
               value: {{ .Values.server.dagsFolder }}
             - name: AIRFLOW_URL

@@ -45,7 +45,7 @@ class MinerRepository:
 
     async def do_query(self, miners: List[tuple], sql_other:str):   
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name
@@ -75,7 +75,7 @@ class MinerRepository:
     
     async def get_miner_by_id(self, Id: str):
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name
@@ -113,7 +113,7 @@ class MinerRepository:
     async def get_all(self):        
         sql = "SELECT * FROM Miner inner join User on Miner.DefineUserId = User.Id WHERE Miner.IsActive = True"
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name
@@ -151,7 +151,7 @@ class MinerRepository:
 
     async def get_miner_by_user_id(self, UserId: str):
         db = mysql.connector.connect(
-                                    host="localhost",
+                                    host=self.config.db_host,
                                     user=self.config.db_username,
                                     password=self.config.db_password,
                                     database=self.config.db_name

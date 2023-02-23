@@ -1,8 +1,8 @@
 server:
   appName: web-server
   image:
-    repository: tuantoquq/fn-webserver
-    tag: latest
+    repository: tuantoquq/finance-backend
+    tag: 0.0.3
     pullPolicy: IfNotPresent
   service:
     name: web-server
@@ -14,8 +14,8 @@ server:
   database:
     user: root
     pass: root
-    dbName: manager
-    host: mysql-primary.ns-mysql.svc.cluster.local
+    dbName: master_controller
+    host: mysql-primary.default.svc.cluster.local
     port: 3306
   resources:
     limits:
@@ -23,13 +23,13 @@ server:
     requests:
       memory: 128Mi
   replicaCount: 1
-  dagsFolder:
-  airflowUrl:
+  dagsFolder: "/dags"
+  airflowUrl: "http://airflow.default.svc.cluster.local"
 client:
   appName: web-client
   image:
-    repository: tuantoquq/fn-webadmin
-    tag: 1.0.1
+    repository: tuantoquq/finance-frontend
+    tag: 0.0.1
     pullPolicy: IfNotPresent
   service:
     name: web-client
