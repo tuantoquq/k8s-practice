@@ -57,8 +57,8 @@ airflowVersion: "2.4.1"
 # Images
 images:
   airflow:
-    repository: ~
-    tag: ~
+    repository: tuantoquq/apache-airflow
+    tag: 1.0.0
     pullPolicy: IfNotPresent
   # To avoid images with user code, you can turn this to 'true' and
   # all the 'run-airflow-migrations' and 'wait-for-airflow-migrations' containers/jobs
@@ -1668,7 +1668,7 @@ postgresql:
     username: root
     password: postgres
   persistence:
-    size: "1Gi"
+    size: 1Gi
 
 # Config settings to go into the mounted airflow.cfg
 #
@@ -1770,7 +1770,7 @@ podTemplate: ~
 dags:
   persistence:
     # Enable persistent volume for storing dags
-    enabled: false
+    enabled: true
     # Volume size for dags
     size: 1Gi
     # If using a custom storageClass, pass name here
@@ -1778,7 +1778,7 @@ dags:
     # access mode of the persistent volume
     accessMode: ReadWriteOnce
     ## the name of an existing PVC to use
-    existingClaim:
+    existingClaim: airflow-dags-pvc
     ## optional subpath for dag volume mount
     subPath: ~
   gitSync:

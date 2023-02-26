@@ -17,9 +17,9 @@ from pydruid.utils.filters import Dimension
 from kafka.admin import KafkaAdminClient, NewTopic
 from kafka import KafkaProducer, KafkaConsumer
 
-KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"
-DRUID_BROKER = "http://localhost:8082"
-DRUID_COORDINATOR = "http://localhost:8081"
+KAFKA_BOOTSTRAP_SERVERS = "kafka.default.svc.cluster.local:9092"
+DRUID_BROKER = "druid-broker.default.svc.cluster.local:8082"
+DRUID_COORDINATOR = "druid-coordinator.default.svc.cluster.local:8081"
 DRUID_URL = "druid/v2"
 DRUID_DATASOURCES_LIST_ENDPOINT = "/druid/coordinator/v1/datasources"
 

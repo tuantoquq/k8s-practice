@@ -1,0 +1,8 @@
+pydruid
+pandas
+requests
+numpy
+pyyaml
+vnstock
+tqdm
+kafka-python
