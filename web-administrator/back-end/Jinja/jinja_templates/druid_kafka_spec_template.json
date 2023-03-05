@@ -1,0 +1,40 @@
+{
+  "type": "kafka",
+  "spec": {
+    "ioConfig": {
+      "type": "kafka",
+      "consumerProperties": {
+        "bootstrap.servers": "localhost:9092"
+      },
+      "topic": "{{indicator_name}}_data",
+      "inputFormat": {
+        "type": "json"
+      },
+      "useEarliestOffset": true
+    },
+    "tuningConfig": {
+      "type": "kafka"
+    },
+    "dataSchema": {
+      "dataSource": "{{indicator_name}}_data",
+      "timestampSpec": {
+        "column": "time",
+        "format": "auto"
+      },
+      "dimensionsSpec": {
+        "dimensions": [
+          "ticker",
+          {
+            "type": "double",
+            "name": "{{indicator_name}}"
+          }
+        ]
+      },
+      "granularitySpec": {
+        "queryGranularity": "none",
+        "rollup": false,
+        "segmentGranularity": "day"
+      }
+    }
+  }
+}

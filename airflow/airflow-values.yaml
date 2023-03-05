@@ -49,10 +49,10 @@ airflowHome: /opt/airflow
 defaultAirflowRepository: apache/airflow
 
 # Default airflow tag to deploy
-defaultAirflowTag: "2.4.1"
+defaultAirflowTag: "2.5.1"
 
 # Airflow version (Used to make some decisions based on Airflow Version being deployed)
-airflowVersion: "2.4.1"
+airflowVersion: "2.5.1"
 
 # Images
 images:
@@ -1689,6 +1689,8 @@ config:
     # For Airflow 1.10, backward compatibility; moved to [logging] in 2.0
     colored_console_log: "False"
     remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
+  api:
+    auth_backends: airflow.api.auth.backend.basic_auth, airflow.api.auth.backend.session
   logging:
     remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
     colored_console_log: "False"
@@ -1770,7 +1772,7 @@ podTemplate: ~
 dags:
   persistence:
     # Enable persistent volume for storing dags
-    enabled: true
+    enabled: false
     # Volume size for dags
     size: 1Gi
     # If using a custom storageClass, pass name here
@@ -1782,21 +1784,21 @@ dags:
     ## optional subpath for dag volume mount
     subPath: ~
   gitSync:
-    enabled: false
+    enabled: true
 
     # git repo clone url
     # ssh examples ssh://git@github.com/apache/airflow.git
     # git@github.com:apache/airflow.git
     # https example: https://github.com/apache/airflow.git
-    repo: https://github.com/apache/airflow.git
-    branch: v2-2-stable
+    repo: https://github.com/tuantoquq/airflow-dags.git
+    branch: main
     rev: HEAD
     depth: 1
     # the number of consecutive failures allowed before aborting
     maxFailures: 0
     # subpath within the repo where dags are located
     # should be "" if dags are at repo root
-    subPath: "tests/dags"
+    subPath: "dags"
     # if your repo needs a user name password
     # you can load them to a k8s secret like the one below
     #   ---

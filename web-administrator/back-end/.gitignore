@@ -1,0 +1,6 @@
+__pycache__/
+.idea/
+/config.py
+Jinja/custom_miners/*
+Jinja/user_miner_input/*
+Jinja/druid_spec/*

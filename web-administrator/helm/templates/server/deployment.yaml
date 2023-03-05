@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.server.appName }}-deployment
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.server.appName }}
+      tier: {{ .Values.server.service.tier }}
+  replicas: {{ .Values.server.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.server.appName }}
+        tier: {{ .Values.server.service.tier }}
+    spec:
+#      volumes:
+#        - name: {{ .Values.server.persistence.name }}
+#          persistentVolumeClaim:
+#            claimName: {{ .Values.server.persistence.claimName }}
+      containers:
+        - name: {{ .Chart.Name }}-server
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          env:
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.server.appName }}-configmap
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.server.appName }}-configmap
+                  key: DB_PASS
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.server.appName }}-configmap
+                  key: DB_HOST
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.server.appName }}-configmap
+                  key: DB_NAME
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.server.appName }}-configmap
+                  key: DB_PORT
+            - name: SERVER_PORT
+              value: "{{ .Values.server.service.internalPort }}"
+            - name: DAGS_FOLDER
+              value: {{ .Values.server.dagsFolder }}
+            - name: AIRFLOW_URL
+              value: {{ .Values.server.airflowUrl }}
+            - name: AIRFLOW_USER
+              value: {{ .Values.server.airflowUser }}
+            - name: AIRFLOW_PASS
+              value: {{ .Values.server.airflowPass }}
+            - name: DRUID_OVERLORD
+              value: {{ .Values.server.druidOverlord }}
+            - name: DRUID_BROKER
+              value: {{ .Values.server.druidBroker }}
+            - name: DRUID_URL
+              value: {{ .Values.server.druidUrl }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.server.service.internalPort }}
+#          volumeMounts:
+#            - name: {{ .Values.server.persistence.name }}
+#              mountPath: {{ .Values.server.persistence.hostPath }}
+          resources:
+{{ toYaml .Values.server.resources | indent 12}}
+

@@ -17,7 +17,7 @@
 
 image:
   repository: apache/druid
-  tag: 24.0.0
+  tag: 25.0.0
   pullPolicy: IfNotPresent
   pullSecrets: []
 
@@ -34,7 +34,7 @@ configVars:
   DRUID_USE_CONTAINER_IP: "true"
 
   ## Druid Common Configurations. ref: https://druid.apache.org/docs/latest/configuration/index.html#common-configurations
-  druid_extensions_loadList: '["druid-histogram", "druid-datasketches", "druid-lookups-cached-global", "postgresql-metadata-storage","druid-kafka-indexing-service"]'
+  druid_extensions_loadList: '["druid-histogram", "druid-datasketches", "druid-lookups-cached-global", "postgresql-metadata-storage","druid-kafka-indexing-service","druid-google-extensions"]'
   druid_metadata_storage_type: postgresql
   druid_metadata_storage_connector_connectURI: jdbc:postgresql://postgres:5432/druid
   druid_metadata_storage_connector_user: druid
@@ -217,7 +217,7 @@ historical:
   persistence:
     enabled: true
     accessMode: ReadWriteOnce
-    size: "1Gi"
+    size: "2Gi"
     # storageClass: "ssd"
 
   antiAffinity: "soft"
@@ -270,9 +270,9 @@ middleManager:
     druid_indexer_fork_property_druid_processing_buffer_sizeBytes: "25000000"
 
   autoscaling:
-    enabled: false
-    minReplicas: 2
-    maxReplicas: 5
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
     metrics:
       - type: Resource
         resource:
@@ -304,7 +304,7 @@ middleManager:
   persistence:
     enabled: true
     accessMode: ReadWriteOnce
-    size: "1Gi"
+    size: "4Gi"
     # storageClass: "ssd"
 
   antiAffinity: "soft"
@@ -401,7 +401,7 @@ zookeeper:
   headless:
     publishNotReadyAddresses: true
   persistence:
-    size: "1Gi"
+    size: "2Gi"
 
 # ------------------------------------------------------------------------------
 # MySQL:
@@ -429,7 +429,7 @@ postgresql:
   service:
     port: 5432
   persistence:
-    size: "1Gi"
+    size: "2Gi"
 
 # Secrets
 prometheus:

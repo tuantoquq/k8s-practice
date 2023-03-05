@@ -741,7 +741,7 @@ service:
 externalAccess:
   ## @param externalAccess.enabled Enable Kubernetes external cluster access to Kafka brokers
   ##
-  enabled: false
+  enabled: true
   ## External IPs auto-discovery configuration
   ## An init container is used to auto-detect LB IPs or node ports by querying the K8s API
   ## Note: RBAC might be required
@@ -794,14 +794,15 @@ externalAccess:
     ## @param externalAccess.service.ports.external Kafka port used for external access when service type is LoadBalancer
     ##
     ports:
-      external: 9094
+      external: 9092
     ## @param externalAccess.service.loadBalancerIPs Array of load balancer IPs for each Kafka broker. Length must be the same as replicaCount
     ## e.g:
     ## loadBalancerIPs:
     ##   - X.X.X.X
     ##   - Y.Y.Y.Y
     ##
-    loadBalancerIPs: []
+    loadBalancerIPs:
+      - 34.30.144.238
     ## @param externalAccess.service.loadBalancerNames Array of load balancer Names for each Kafka broker. Length must be the same as replicaCount
     ## e.g:
     ## loadBalancerNames:
